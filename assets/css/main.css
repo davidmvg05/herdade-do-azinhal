@@ -1,0 +1,287 @@
+/* ==========================================================================
+   Herdade do Azinhal - Estilos Principais & Componentes Globais
+   ========================================================================== */
+
+/* Cabeçalho Global Fixo */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: clamp(1.2rem, 2.5vh, 2.2rem) var(--space-8) 0 var(--space-8);
+  z-index: var(--z-header);
+  pointer-events: none; /* Permite cliques através de áreas vazias */
+  transition: background-color var(--transition-normal), backdrop-filter var(--transition-normal);
+}
+
+.site-header > * {
+  pointer-events: auto; /* Reativa eventos nos elementos interativos */
+}
+
+/* Logótipo */
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: clamp(2.2rem, 4.5vw, 5.5rem);
+  margin-top: clamp(0.5rem, 1vh, 1.2rem);
+}
+
+.brand-logo-img {
+  height: 130px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+  transition: transform var(--transition-fast);
+}
+
+.brand-link:hover .brand-logo-img {
+  transform: scale(1.05);
+}
+
+/* Ocultar o logótipo apenas nos menus que ocupam o ecrã todo (páginas internas) */
+body:not(.home-page).menu-is-open .brand-link,
+body:not(.home-page):has(.drawer-overlay.is-open) .brand-link {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+/* Na Homepage (index.html), o logótipo permanece perfeitamente visível no painel esquerdo */
+body.home-page.menu-is-open .brand-link,
+body.home-page:has(.drawer-overlay.is-open) .brand-link {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+/* Botão Hamburger Minimalista (2 Linhas Horizontais) */
+.menu-toggle-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(60, 68, 53, 0.15);
+  cursor: pointer;
+  margin-top: clamp(0.5rem, 1vh, 1.2rem);
+  transition: background-color var(--transition-fast);
+}
+
+.menu-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.menu-toggle-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-black);
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  will-change: transform;
+}
+
+.menu-toggle-line:nth-child(1) {
+  transform: translate(-50%, -4.5px);
+}
+
+.menu-toggle-line:nth-child(2) {
+  transform: translate(-50%, 4.5px);
+}
+
+/* Estado Ativo do Hamburger (Transforma em X de fecho perfeitamente centrado sem esticar) */
+.menu-toggle-btn.is-active {
+  background-color: #FFFFFF !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.6) !important;
+  z-index: 1300 !important;
+  opacity: 1 !important;
+}
+
+.menu-toggle-btn.is-active:hover {
+  background-color: var(--color-sand) !important;
+}
+
+.menu-toggle-btn.is-active .menu-toggle-line {
+  background-color: #000000 !important;
+}
+
+.menu-toggle-btn.is-active .menu-toggle-line:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.menu-toggle-btn.is-active .menu-toggle-line:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Tipografia e Títulos */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-main);
+  line-height: var(--line-height-tight);
+  color: var(--text-main);
+}
+
+.hero-title {
+  font-size: var(--font-size-hero);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-black);
+  margin-bottom: var(--space-4);
+  line-height: 1.02;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: var(--line-height-relaxed);
+  max-width: 480px;
+  margin-bottom: var(--space-6);
+}
+
+/* Botões Estilizados */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 0.8rem 2.2rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-pill-dark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 1px solid var(--color-black);
+}
+
+.btn-pill-dark:hover {
+  background-color: var(--color-olive);
+  border-color: var(--color-olive);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.btn-pill-outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1.5px solid var(--color-black);
+}
+
+.btn-pill-outline:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+/* Tag / Badge */
+.brand-tag {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--color-olive);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+
+/* Mini Card do Hero (canto inferior esquerdo, referência imagem 1) */
+.hero-mini-card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+  margin-top: auto;
+  padding-top: var(--space-6);
+}
+
+.mini-card-thumb {
+  width: 140px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+}
+
+.mini-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.hero-mini-card:hover .mini-card-thumb img {
+  transform: scale(1.08);
+}
+
+.mini-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-card-category {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.mini-card-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-black);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* Elemento decorativo gráfico de arcos */
+.hero-arc-graphic {
+  position: absolute;
+  left: -20px;
+  bottom: -10px;
+  width: 160px;
+  height: 160px;
+  border: 1px dashed rgba(60, 68, 53, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Páginas Estáticas de Termos e Políticas */
+.policy-page {
+  background-color: var(--color-sand);
+  min-height: 100vh;
+  padding: 130px var(--space-6) var(--space-10) var(--space-6);
+}
+
+.policy-main-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--color-white);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}

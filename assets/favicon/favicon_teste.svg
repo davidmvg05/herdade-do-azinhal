@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" fill="none" stroke="currentColor">
+  <!-- Coudelaria Herdade do Azinhal - Monograma & Ferro HA -->
+  <g stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Linha vertical esquerda do H -->
+    <line x1="110" y1="30" x2="110" y2="230" />
+    
+    <!-- Linha vertical direita do H -->
+    <line x1="190" y1="30" x2="190" y2="230" />
+    
+    <!-- Trave horizontal comum (H e A) -->
+    <line x1="110" y1="135" x2="190" y2="135" />
+    
+    <!-- Vértice e pernas diagonais do A -->
+    <line x1="150" y1="35" x2="70" y2="230" />
+    <line x1="150" y1="35" x2="230" y2="230" />
+  </g>
+  
+  <!-- Inscrição Tipográfica -->
+  <text x="150" y="310" 
+        text-anchor="middle" 
+        font-family="'Anaheim', 'Open Sans', sans-serif" 
+        font-size="25" 
+        letter-spacing="2" 
+        stroke="none" 
+        fill="currentColor">Herdade do Azinhal</text>
+  <text x="150" y="335" 
+        text-anchor="middle" 
+        font-family="'Anaheim', 'Open Sans', sans-serif" 
+        font-size="12" 
+        letter-spacing="4" 
+        stroke="none" 
+        fill="currentColor" 
+        opacity="0.8">COUDELARIA</text>
+</svg>

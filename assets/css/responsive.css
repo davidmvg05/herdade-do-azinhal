@@ -1,0 +1,882 @@
+/* ==========================================================================
+   Herdade do Azinhal - Media Queries & Adaptação Responsiva
+   Breakpoints Obrigatórios:
+   1. @media (max-width: 480px)
+   2. @media (max-width: 576px)
+   3. @media (min-width: 768px)
+   4. @media (min-width: 992px)
+   5. @media (min-width: 1200px)
+   6. @media (min-width: 1400px)
+
+   Regras Fundamentais:
+   - Na homepage as imagens estão SEMPRE NA VERTICAL AO LADO (split-screen em todos os dispositivos, não há para ir para baixo).
+   - A quantidade de fotos visíveis transita de 4 -> 3 -> 2 -> 1:
+     * >= 1200px / >= 1400px : 4 fotos lado a lado
+     * 992px - 1199px        : 3 fotos lado a lado + scroll horizontal
+     * 768px - 991px         : 2 fotos lado a lado + scroll horizontal
+     * <= 576px / <= 480px   : 1 foto lado a lado + scroll horizontal
+   - Seta na última imagem para avançar à direita; quando avança um, aparece a seta da esquerda para recuar.
+   - O menu drawer na homepage ocupa SEMPRE com 0px de folga exatamente o espaço até ao painel das imagens.
+   ========================================================================== */
+
+/* Variáveis Responsivas de Painel para Split-Screen Constante */
+:root {
+  --hero-panel-width: 44vw;
+  --slices-panel-width: 56vw;
+}
+
+/* ==========================================================================
+   Estrutura Split-Screen da Homepage em TODOS os Dispositivos (Sem empilhar)
+   ========================================================================== */
+html.home-page,
+body.home-page {
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body.home-page ::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+body.home-page .split-screen-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+body.home-page .hero-left-panel {
+  flex: 0 0 var(--hero-panel-width) !important;
+  width: var(--hero-panel-width) !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  position: relative;
+  z-index: var(--z-card);
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body.home-page .slices-wrapper {
+  flex: 1 1 var(--slices-panel-width) !important;
+  width: var(--slices-panel-width) !important;
+  height: 100% !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
+body.home-page .slices-right-panel {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* O Menu Drawer na Homepage ocupa SEMPRE o painel direito exatamente sem qualquer folga */
+body.home-page .drawer-overlay,
+body.home-page .drawer-overlay.drawer-homepage {
+  left: auto !important;
+  right: 0 !important;
+  width: var(--slices-panel-width) !important;
+  max-width: var(--slices-panel-width) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: -25px 0 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Nas páginas internas, o Drawer cobre a totalidade do ecrã */
+body:not(.home-page) .drawer-overlay {
+  width: 100vw !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   1. Breakpoint: @media (max-width: 480px) - Ecrãs Ultra-Compactos
+   HOMEPAGE: HERO + 1 FOTO VISÍVEL NA VERTICAL AO LADO (SEM IR PARA BAIXO)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  :root {
+    --hero-panel-width: 46vw;
+    --slices-panel-width: 54vw;
+  }
+
+  .site-header {
+    height: 65px;
+    padding: 0 8px;
+    align-items: center;
+  }
+
+  .brand-link {
+    margin-left: 4px;
+    margin-top: 0;
+  }
+
+  .brand-logo-img {
+    height: 44px;
+  }
+
+  .menu-toggle-btn {
+    width: 36px;
+    height: 36px;
+    margin-top: 0;
+  }
+
+  .menu-toggle-line {
+    width: 18px;
+  }
+
+  /* Painel Esquerdo Hero em Mobile Ultra-Compacto */
+  .hero-left-panel {
+    padding: 68px 10px 14px 12px !important;
+    justify-content: flex-start !important;
+    gap: 12px;
+  }
+
+  .hero-arc-graphic {
+    display: none;
+  }
+
+  .brand-tag {
+    font-size: 0.52rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .hero-title {
+    font-size: 1.15rem;
+    line-height: 1.05;
+    margin-bottom: 4px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.68rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .btn-pill {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.62rem;
+    gap: 4px;
+  }
+
+  .btn-pill svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hero-mini-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 4px;
+    margin-top: auto;
+  }
+
+  .mini-card-thumb {
+    width: 72px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+  }
+
+  .mini-card-category {
+    font-size: 0.5rem;
+  }
+
+  .mini-card-title {
+    font-size: 0.62rem;
+  }
+
+  /* Painel Direito: 1 FOTO VISÍVEL NA VERTICAL AO LADO */
+  .slice-item {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    border-left: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    opacity: 1;
+    top: 14px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Setas de navegação lateral entre fotos */
+  .slice-nav-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .slice-nav-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .slice-nav-prev { left: 6px; }
+  .slice-nav-next { right: 6px; }
+
+  /* Menu Drawer na Homepage e Páginas */
+  .drawer-overlay {
+    padding: 1rem 12px;
+  }
+
+  .drawer-overlay.drawer-homepage .drawer-link,
+  body.home-page .drawer-overlay .drawer-link {
+    font-size: 1.25rem;
+  }
+
+  .drawer-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .drawer-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .drawer-copyright {
+    font-size: 0.65rem;
+  }
+
+  /* Card Deck Pages (Ultra-Compact) */
+  .deck-page-wrapper {
+    padding: 75px var(--space-3) var(--space-3) var(--space-3);
+  }
+
+  .deck-page-title {
+    font-size: 1.6rem;
+  }
+
+  .deck-stage-container {
+    width: 95%;
+    max-width: 320px;
+    height: 400px;
+    transform: translate(-50%, -48%);
+  }
+
+  .deck-card {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
+  .deck-card-title {
+    font-size: 1.25rem;
+  }
+
+  .deck-card-desc {
+    font-size: 0.8rem;
+  }
+
+  .deck-scroll-hint span {
+    display: none;
+  }
+
+  .deck-card form input,
+  .deck-card form textarea {
+    padding: 5px 8px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Galeria 3D */
+  .coverflow-viewport {
+    height: 400px;
+  }
+
+  .video-card {
+    width: 200px;
+    height: 340px;
+  }
+
+  .coverflow-prev-btn { left: 4px; width: 36px; height: 36px; }
+  .coverflow-next-btn { right: 4px; width: 36px; height: 36px; }
+
+  /* Páginas de Política */
+  .policy-page {
+    padding: 80px 10px 20px 10px;
+  }
+
+  .policy-main-card {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Breakpoint: @media (max-width: 576px) - Smartphones Standard
+   HOMEPAGE: HERO + 1 FOTO VISÍVEL NA VERTICAL AO LADO (SEM IR PARA BAIXO)
+   -------------------------------------------------------------------------- */
+@media (max-width: 576px) and (min-width: 481px) {
+  :root {
+    --hero-panel-width: 45vw;
+    --slices-panel-width: 55vw;
+  }
+
+  .site-header {
+    height: 72px;
+    padding: 0 var(--space-4);
+    align-items: center;
+  }
+
+  .brand-logo-img {
+    height: 50px;
+  }
+
+  .brand-link,
+  .menu-toggle-btn {
+    margin-top: 0;
+  }
+
+  .menu-toggle-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Painel Esquerdo Hero */
+  .hero-left-panel {
+    padding: 78px 14px 18px 18px !important;
+    justify-content: flex-start !important;
+    gap: 14px;
+  }
+
+  .brand-tag {
+    font-size: 0.58rem;
+    margin-bottom: 4px;
+  }
+
+  .hero-title {
+    font-size: 1.35rem;
+    line-height: 1.08;
+    margin-bottom: 6px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.74rem;
+    line-height: 1.35;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .btn-pill {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.68rem;
+  }
+
+  .hero-mini-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: auto;
+  }
+
+  .mini-card-thumb {
+    width: 85px;
+    height: 55px;
+  }
+
+  .mini-card-category { font-size: 0.55rem; }
+  .mini-card-title { font-size: 0.7rem; }
+
+  /* 1 FOTO VISÍVEL NA VERTICAL AO LADO */
+  .slice-item {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    border-left: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.25rem;
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-5);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    opacity: 1;
+    top: 18px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .slice-nav-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .slice-nav-prev { left: 8px; }
+  .slice-nav-next { right: 8px; }
+
+  .drawer-overlay.drawer-homepage .drawer-link,
+  body.home-page .drawer-overlay .drawer-link {
+    font-size: 1.4rem;
+  }
+
+  .deck-stage-container {
+    width: 92%;
+    max-width: 360px;
+    height: 430px;
+  }
+
+  .policy-page {
+    padding: 85px var(--space-4) var(--space-6) var(--space-4);
+  }
+
+  .policy-main-card {
+    padding: var(--space-5);
+  }
+}
+
+/* Transição suave entre 577px e 767px: 2 fotos na vertical ao lado */
+@media (min-width: 577px) and (max-width: 767px) {
+  :root {
+    --hero-panel-width: 44vw;
+    --slices-panel-width: 56vw;
+  }
+
+  .site-header {
+    height: 80px;
+    padding: 0 var(--space-5);
+    align-items: center;
+  }
+
+  .brand-logo-img {
+    height: 60px;
+  }
+
+  .brand-link,
+  .menu-toggle-btn {
+    margin-top: 0;
+  }
+
+  .hero-left-panel {
+    padding: 88px var(--space-5) var(--space-5) var(--space-5) !important;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.82rem;
+  }
+
+  /* 2 FOTOS VISÍVEIS NA VERTICAL AO LADO */
+  .slice-item {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    min-width: 50% !important;
+    max-width: 50% !important;
+    height: 100% !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    scroll-snap-align: start;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.35rem;
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    opacity: 1;
+    top: 22px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Breakpoint: @media (min-width: 768px) - Tablets
+   HOMEPAGE (768px - 991px): HERO + 2 FOTOS VISÍVEIS NA VERTICAL AO LADO
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+
+  .brand-logo-img {
+    height: clamp(68px, 9vw, 90px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  :root {
+    --hero-panel-width: 42vw;
+    --slices-panel-width: 58vw;
+  }
+
+  .site-header {
+    height: 90px;
+    padding: 0 var(--space-6);
+    align-items: center;
+  }
+
+  .brand-link,
+  .menu-toggle-btn {
+    margin-top: 0;
+  }
+
+  .hero-left-panel {
+    padding: 100px var(--space-6) var(--space-6) var(--space-6) !important;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+
+  /* 2 FOTOS VISÍVEIS NA VERTICAL AO LADO */
+  .slice-item {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    min-width: 50% !important;
+    max-width: 50% !important;
+    height: 100% !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    scroll-snap-align: start;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.5rem;
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    opacity: 1;
+    top: 26px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .slice-nav-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Drawer em Tablets */
+  .drawer-overlay.drawer-homepage .drawer-link,
+  body.home-page .drawer-overlay .drawer-link {
+    font-size: 1.7rem;
+  }
+
+  /* Card Deck em Tablets */
+  .deck-page-wrapper {
+    padding: 100px var(--space-6) var(--space-6) var(--space-6);
+  }
+
+  .deck-stage-container {
+    width: 85%;
+    max-width: 460px;
+    height: 470px;
+  }
+
+  /* Galeria 3D em Tablets */
+  .coverflow-viewport {
+    height: 460px;
+  }
+
+  .video-card {
+    width: 250px;
+    height: 410px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Breakpoint: @media (min-width: 992px) - Split-Screen Desktop Compacto
+   HOMEPAGE (992px - 1199px): HERO + 3 FOTOS VISÍVEIS NA VERTICAL AO LADO
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  :root {
+    --hero-panel-width: 42vw;
+    --slices-panel-width: 58vw;
+  }
+
+  .site-header {
+    height: 130px;
+    padding: clamp(1.2rem, 2.5vh, 2.2rem) var(--space-8) 0 var(--space-8);
+    align-items: flex-start;
+  }
+
+  .brand-link {
+    margin-left: clamp(2.2rem, 4.5vw, 5.5rem);
+    margin-top: clamp(0.5rem, 1vh, 1.2rem);
+  }
+
+  .brand-logo-img {
+    height: 110px;
+  }
+
+  .menu-toggle-btn {
+    width: 48px;
+    height: 48px;
+    margin-top: clamp(0.5rem, 1vh, 1.2rem);
+  }
+
+  .hero-left-panel {
+    padding: 110px var(--space-8) var(--space-8) var(--space-8) !important;
+  }
+
+  .hero-mini-card {
+    margin-top: auto;
+    padding-top: var(--space-6);
+  }
+
+  /* Card Deck em Desktop */
+  .deck-page-wrapper {
+    padding: clamp(130px, 16vh, 170px) var(--space-8) var(--space-6) var(--space-8);
+  }
+
+  .deck-stage-container {
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    transform: translate(-50%, -52%);
+  }
+}
+
+/* 992px a 1199px: 3 FOTOS VISÍVEIS NA VERTICAL AO LADO */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hero-title {
+    font-size: clamp(2.6rem, 3.8vw, 3.6rem);
+  }
+
+  .slice-item {
+    flex: 0 0 calc(100% / 3) !important;
+    width: calc(100% / 3) !important;
+    min-width: calc(100% / 3) !important;
+    max-width: calc(100% / 3) !important;
+    height: 100% !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.55rem;
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    top: clamp(2.2rem, 4vh, 3.5rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(-8px) scale(0.9);
+    opacity: 0;
+  }
+
+  .slice-item:hover .slice-arrow,
+  .slice-item:focus-visible .slice-arrow {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Breakpoint: @media (min-width: 1200px) - Desktops Standard
+   HOMEPAGE: HERO + 4 FOTOS VISÍVEIS NA VERTICAL AO LADO (SEM SCROLL)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1200px) {
+  :root {
+    --hero-panel-width: 44vw;
+    --slices-panel-width: 56vw;
+  }
+
+  .brand-logo-img {
+    height: 125px;
+  }
+
+  .hero-left-panel {
+    padding: 120px var(--space-10) var(--space-10) var(--space-10) !important;
+  }
+
+  .hero-title {
+    font-size: clamp(3.2rem, 5vw, 4.6rem);
+  }
+
+  /* 4 FOTOS VISÍVEIS NA VERTICAL AO LADO */
+  .slices-right-panel {
+    overflow: hidden !important;
+  }
+
+  .slice-item {
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 100% !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .slice-item:hover,
+  .slice-item:focus-visible {
+    flex: 2.4 !important;
+  }
+
+  .slice-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+  }
+
+  .slice-label-wrap {
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .slice-arrow {
+    top: clamp(2.5rem, 5vh, 4rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(-8px) scale(0.9);
+    opacity: 0;
+  }
+
+  .slice-item:hover .slice-arrow,
+  .slice-item:focus-visible .slice-arrow {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* Ocultar setas de navegação lateral quando todas as 4 fotos cabem perfeitamente */
+  .slice-nav-arrow {
+    display: none !important;
+  }
+
+  .deck-stage-container {
+    max-width: 520px;
+    height: 510px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Breakpoint: @media (min-width: 1400px) - Ecrãs Largos & Widescreen
+   HOMEPAGE: HERO + 4 FOTOS VISÍVEIS NA VERTICAL AO LADO (EXPANSÃO ACORDEÃO 2.8)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1400px) {
+  :root {
+    --hero-panel-width: 44vw;
+    --slices-panel-width: 56vw;
+  }
+
+  .hero-left-panel {
+    padding: 130px var(--space-12) var(--space-12) var(--space-12) !important;
+  }
+
+  .hero-title {
+    font-size: 5.2rem;
+  }
+
+  /* 4 FOTOS VISÍVEIS COM EXPANSÃO MÁXIMA */
+  .slices-right-panel {
+    overflow: hidden !important;
+  }
+
+  .slice-item {
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 100% !important;
+  }
+
+  .slice-item:hover,
+  .slice-item:focus-visible {
+    flex: 2.8 !important;
+  }
+
+  .slice-title {
+    font-size: 2.2rem;
+  }
+
+  .slice-nav-arrow {
+    display: none !important;
+  }
+
+  .drawer-inner {
+    max-width: 1100px;
+  }
+
+  .deck-stage-container {
+    max-width: 560px;
+    height: 540px;
+  }
+}

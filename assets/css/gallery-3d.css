@@ -1,0 +1,359 @@
+/* ==========================================================================
+   Herdade do Azinhal - Galeria 3D de Vídeos (Coverflow - Imagem 1)
+   ========================================================================== */
+
+.gallery-page-body {
+  background-color: var(--color-sand);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.gallery-stage-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(165px, 20vh, 200px) var(--space-4) var(--space-8) var(--space-4);
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.gallery-header-meta {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  z-index: 10;
+}
+
+.gallery-page-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-black);
+}
+
+.gallery-page-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-top: var(--space-2);
+}
+
+/* Palco 3D Coverflow */
+.coverflow-viewport {
+  position: relative;
+  width: 100%;
+  height: 580px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Carta Individual de Vídeo (Formato Vertical da Imagem 1) */
+.video-card {
+  position: absolute;
+  width: 320px;
+  height: 520px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-black);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+              filter 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s ease;
+  user-select: none;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+/* Elemento de Vídeo */
+.video-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Controlado pelo script do palco */
+}
+
+/* Overlay e Info da Carta */
+.video-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-5);
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+/* Botão de Som no Topo Direito (como na Imagem 1) */
+.video-sound-btn {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 20;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.video-sound-btn:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+.video-sound-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Título e Info do Vídeo */
+.video-card-meta {
+  margin-top: auto;
+  pointer-events: auto;
+}
+
+.video-card-title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  text-align: center;
+  margin-bottom: var(--space-3);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Barra de Reprodução Minimalista */
+.video-progress-bar-wrap {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.video-progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-white);
+  transition: width 0.1s linear;
+}
+
+/* Setas Circulares Flutuantes de Navegação (Imagem 1) */
+.coverflow-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.coverflow-nav-btn:hover,
+.coverflow-nav-btn:focus-visible {
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.coverflow-prev-btn {
+  left: var(--space-6);
+}
+
+.coverflow-next-btn {
+  right: var(--space-6);
+}
+
+.coverflow-nav-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Paginação por Bullets / Dots (Imagem 1) */
+.coverflow-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--space-6);
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+.coverflow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(60, 68, 53, 0.28);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.coverflow-dot.is-active {
+  width: 20px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-olive);
+}
+
+/* ==========================================================================
+   Classes de Posição 3D Coverflow
+   ========================================================================== */
+
+/* Centro / Ativo */
+.video-card[data-slot="0"] {
+  transform: translateX(0) translateZ(100px) rotateY(0deg) scale(1);
+  z-index: 30;
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* Lado Esquerdo 1 (-1) */
+.video-card[data-slot="-1"] {
+  transform: translateX(-70%) translateZ(-80px) rotateY(28deg) scale(0.85);
+  z-index: 20;
+  opacity: 0.88;
+  filter: brightness(0.8);
+}
+
+/* Lado Esquerdo 2 (-2) */
+.video-card[data-slot="-2"] {
+  transform: translateX(-125%) translateZ(-220px) rotateY(40deg) scale(0.72);
+  z-index: 10;
+  opacity: 0.55;
+  filter: brightness(0.65) blur(1px);
+}
+
+/* Lado Direito 1 (+1) */
+.video-card[data-slot="1"] {
+  transform: translateX(70%) translateZ(-80px) rotateY(-28deg) scale(0.85);
+  z-index: 20;
+  opacity: 0.88;
+  filter: brightness(0.8);
+}
+
+/* Lado Direito 2 (+2) */
+.video-card[data-slot="2"] {
+  transform: translateX(125%) translateZ(-220px) rotateY(-40deg) scale(0.72);
+  z-index: 10;
+  opacity: 0.55;
+  filter: brightness(0.65) blur(1px);
+}
+
+/* Ocultas fora do palco */
+.video-card[data-slot="hidden-left"] {
+  transform: translateX(-180%) translateZ(-400px) rotateY(50deg) scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.video-card[data-slot="hidden-right"] {
+  transform: translateX(180%) translateZ(-400px) rotateY(-50deg) scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Responsividade do Coverflow */
+@media (max-width: 768px) {
+  .coverflow-viewport {
+    height: 480px;
+    perspective: 800px;
+  }
+
+  .video-card {
+    width: 250px;
+    height: 420px;
+  }
+
+  .video-card[data-slot="-1"] {
+    transform: translateX(-55%) translateZ(-60px) rotateY(20deg) scale(0.82);
+  }
+
+  .video-card[data-slot="1"] {
+    transform: translateX(55%) translateZ(-60px) rotateY(-20deg) scale(0.82);
+  }
+
+  .coverflow-prev-btn { left: var(--space-2); width: 42px; height: 42px; }
+  .coverflow-next-btn { right: var(--space-2); width: 42px; height: 42px; }
+}
+
+@media (max-width: 480px) {
+  .coverflow-viewport {
+    height: 440px;
+  }
+
+  .video-card {
+    width: 230px;
+    height: 380px;
+  }
+
+  .video-card[data-slot="-1"] {
+    transform: translateX(-40%) translateZ(-50px) rotateY(18deg) scale(0.8);
+    opacity: 0.5;
+  }
+
+  .video-card[data-slot="1"] {
+    transform: translateX(40%) translateZ(-50px) rotateY(-18deg) scale(0.8);
+    opacity: 0.5;
+  }
+}

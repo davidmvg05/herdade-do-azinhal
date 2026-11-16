@@ -1,0 +1,353 @@
+/* ==========================================================================
+   Herdade do Azinhal - Sistema de Scroll Card Stacking Deck (Imagens 2 a 4)
+   Sem barra de scroll nativa, empilhamento e rotação orgânica bidirecional
+   ========================================================================== */
+
+/* Bloqueio da barra de scroll nativa no ecrã completo */
+html.deck-page,
+body.deck-page {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+/* Layout Geral da Página de Baralho */
+.deck-page-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(165px, 20vh, 200px) var(--space-8) var(--space-6) var(--space-8);
+  background-color: var(--color-sand);
+  overflow: hidden;
+}
+
+/* Cabeçalho da Página de Conteúdo */
+.deck-page-header {
+  position: relative;
+  z-index: 10;
+  max-width: 600px;
+}
+
+.deck-page-title {
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-black);
+  line-height: 1.05;
+  margin-top: var(--space-1);
+}
+
+.deck-page-desc {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
+  margin-top: var(--space-3);
+}
+
+/* Palco Central do Baralho de Cartas */
+.deck-stage-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  width: 100%;
+  max-width: 520px;
+  height: 510px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  perspective: 1000px;
+  pointer-events: none;
+}
+
+/* Baralho de Cartas */
+.deck-cards-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Carta Individual (Formato e Design das Imagens 2 a 4) */
+.deck-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.14), 0 16px 40px rgba(0, 0, 0, 0.16);
+  cursor: grab;
+  user-select: none;
+  overflow: hidden;
+  transition: transform 0.65s cubic-bezier(0.2, 1, 0.3, 1),
+              opacity 0.65s cubic-bezier(0.2, 1, 0.3, 1),
+              box-shadow 0.4s ease;
+  will-change: transform, opacity;
+  background-color: var(--color-white);
+  border: 1px solid rgba(60, 68, 53, 0.12);
+}
+
+/* Variações Cromáticas das Cartas (respeitando a paleta e referências 2-4) */
+.deck-card.theme-sand {
+  background-color: #f7f6f4;
+  color: var(--color-black);
+}
+
+.deck-card.theme-olive {
+  background-color: var(--color-olive);
+  color: var(--color-white);
+  border-color: var(--color-olive);
+}
+
+.deck-card.theme-olive .deck-card-desc,
+.deck-card.theme-olive .deck-card-icon svg {
+  color: var(--color-sand);
+}
+
+.deck-card.theme-black {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.deck-card.theme-black .deck-card-desc {
+  color: var(--color-sand);
+}
+
+.deck-card.theme-terracotta {
+  background-color: #9c5c3e; /* Tom quente do barro e couro alentejano */
+  color: var(--color-white);
+  border-color: #9c5c3e;
+}
+
+.deck-card.theme-terracotta .deck-card-desc {
+  color: #fcefe9;
+}
+
+/* Topo da Carta: Ícone Minimalista (icones.js.org) e Tag */
+.deck-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.deck-card-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-olive);
+}
+
+.deck-card-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.deck-card-num {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-widest);
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Conteúdo Central da Carta */
+.deck-card-content {
+  margin: auto 0;
+}
+
+.deck-card-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  line-height: 1.15;
+  margin-bottom: var(--space-4);
+}
+
+.deck-card-desc {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-muted-text);
+}
+
+/* Base da Carta: Foto Ilustrativa ou Rodapé */
+.deck-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.deck-card.theme-olive .deck-card-footer,
+.deck-card.theme-black .deck-card-footer,
+.deck-card.theme-terracotta .deck-card-footer {
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.deck-card-thumb {
+  width: 72px;
+  height: 50px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.deck-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deck-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+}
+
+/* Barra de Rodapé da Página: Indicadores e Dica de Scroll */
+.deck-page-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.deck-progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.deck-counter {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: var(--letter-spacing-widest);
+  color: var(--color-black);
+}
+
+.deck-nav-controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.deck-ctrl-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 1px solid rgba(60, 68, 53, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-black);
+  box-shadow: var(--shadow-subtle);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.deck-ctrl-btn:hover {
+  background: var(--color-sand-light);
+  transform: scale(1.1);
+}
+
+.deck-ctrl-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.deck-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.deck-scroll-hint svg {
+  animation: bounceHint 2s infinite ease-in-out;
+}
+
+@keyframes bounceHint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* ==========================================================================
+   Responsividade do Card Deck
+   ========================================================================== */
+@media (max-width: 991px) {
+  .deck-page-wrapper {
+    padding: 90px var(--space-5) var(--space-5) var(--space-5);
+  }
+
+  .deck-stage-container {
+    width: 90%;
+    max-width: 440px;
+    height: 460px;
+    transform: translate(-50%, -48%);
+  }
+
+  .deck-card {
+    padding: var(--space-6);
+  }
+
+  .deck-card-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .deck-page-wrapper {
+    padding: 80px var(--space-4) var(--space-4) var(--space-4);
+  }
+
+  .deck-stage-container {
+    width: 92%;
+    max-width: 360px;
+    height: 430px;
+    transform: translate(-50%, -48%);
+  }
+
+  .deck-card {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+  }
+
+  .deck-card-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .deck-card-desc {
+    font-size: var(--font-size-sm);
+  }
+
+  .deck-scroll-hint span {
+    display: none;
+  }
+}
